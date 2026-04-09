@@ -2,8 +2,10 @@ import React, { useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
+
 import {
   TAB_ICON_MAP,
   VISIBLE_TABS,
@@ -24,43 +26,70 @@ const TabNavigator: React.FC = () => {
   const screenOptions = useCallback(
     ({ route }) => ({
       tabBarIcon: ({ focused }) => {
-        const config = TAB_ICON_MAP[route.name as keyof typeof TAB_ICON_MAP] || {};
-        const iconName = focused ? config.icon : config.unfocusedIcon || config.icon;
+        const config =
+          TAB_ICON_MAP[route.name as keyof typeof TAB_ICON_MAP] || {};
+
+        const iconName =
+          focused ? config.icon : config.unfocusedIcon || config.icon;
+
         const label = config.labelKey ? t(config.labelKey) : '';
 
         return (
-          <View style={[styles.iconContainer, focused && styles.focusedContainer]}>
+          <View
+            style={[
+              styles.container,
+              focused ? styles.activeContainer : styles.inactiveContainer,
+            ]}
+          >
             <Icon
               name={iconName}
               size={TAB_ICON_SIZE}
-              color={focused ? '#FFFFFF' : '#9CA3AF'}
+              color={focused ? '#FFFFFF' : '#1F2937'}
             />
-            {focused && (
-              <Text style={styles.label} numberOfLines={1}>
-                {label}
-              </Text>
-            )}
+
+            <Text
+              style={[
+                styles.label,
+                { color: focused ? '#FFFFFF' : '#1F2937' },
+              ]}
+              numberOfLines={1}
+            >
+              {label}
+            </Text>
           </View>
         );
       },
-      tabBarActiveTintColor: '#FFFFFF',
-      tabBarInactiveTintColor: '#9CA3AF',
+      tabBarButton: (props) => (
+  <Pressable
+    {...props}
+    android_ripple={{ color: 'transparent' }}
+    style={({ pressed }) => [
+      props.style,
+      {
+        transform: [{ scale: pressed ? 0.95 : 1 }],
+      },
+    ]}
+  />
+),
+
       tabBarStyle: {
-        backgroundColor: '#1F2937', // Dark bg like citrine NAV_BAR_COLOR
+        backgroundColor: '#FFFFFF',
         height: totalTabBarHeight,
         paddingBottom: TAB_BAR_PADDING_BOTTOM + insets.bottom,
         paddingTop: TAB_BAR_PADDING_TOP,
         borderTopWidth: 0,
-        elevation: 8,
+        // shadow đẹp hơn
+        elevation: 10,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
       },
+
       tabBarItemStyle: {
         flex: 1,
-        paddingVertical: 4,
       },
+
       tabBarLabel: () => null,
       headerShown: false,
     }),
@@ -80,31 +109,32 @@ const TabNavigator: React.FC = () => {
   );
 };
 
+export default TabNavigator;
+
 const styles = StyleSheet.create({
-  iconContainer: {
-    flexDirection: 'row',
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    minWidth: 80,
   },
-  focusedContainer: {
-    backgroundColor: '#3629B7', // Active pill like citrine
-    minWidth: 70,
-    shadowColor: '#3629B7',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 4,
+
+  activeContainer: {
+    backgroundColor: '#F97316',
+    paddingVertical: 6,
+    minHeight: 40,
+    minWidth: 96,
   },
+
+  inactiveContainer: {
+    backgroundColor: 'transparent',
+  },
+
   label: {
-    color: '#FFFFFF',
-    marginLeft: 6,
+    marginTop: 4,
     fontSize: 12,
     fontWeight: '600',
   },
 });
-
-export default TabNavigator;
-
