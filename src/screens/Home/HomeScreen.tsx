@@ -8,11 +8,11 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
-  Dimensions,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
 
-const { width: screenWidth } = Dimensions.get('window');
+// const { width: screenWidth } = Dimensions.get('window');
 const horizCardWidth = 120;
 
 interface MenuItem {
@@ -22,9 +22,9 @@ interface MenuItem {
 }
 
 const categories = [
-  { id: '1', title: 'Burger', image: require('../assets/images/food/burger.png') },
-  { id: '2', title: 'Hot Pot', image: require('../assets/images/food/hot-pot.png') },
-  { id: '3', title: 'Dish', image: require('../assets/images/food/dish.png') },
+  { id: '1', title: 'Burger', image: require('../../assets/images/food/burger.png') },
+  { id: '2', title: 'Hot Pot', image: require('../../assets/images/food/hot-pot.png') },
+  { id: '3', title: 'Dish', image: require('../../assets/images/food/dish.png') },
 ];
 
 const popular: MenuItem[] = [
@@ -64,14 +64,14 @@ const HomeScreen: React.FC = () => {
 
         {/* Search Bar */}
         <View style={styles.searchBar}>
-          <Text style={styles.searchIcon}>🔍</Text>
+          <Icon name="search" size={20} color="#666" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search dishes, ingredients, restaurants"
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
-          <Text style={styles.searchMic}>🎤</Text>
+          <Icon name="microphone" size={20} color="#666" style={styles.searchMic} />
         </View>
 
         {/* Categories */}

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 const SplashScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/logo/logo.png')} style={styles.logo} />
+      <Image source={require('../../assets/logo/logo.png')} style={styles.logo} />
       <ActivityIndicator size="large" color="#4CAF50" />
       <Text style={styles.subtitle}>Loading...</Text>
     </View>

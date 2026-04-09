@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SplashScreen from '../screens/SplashScreen';
+import SplashScreen from '../screens/Splash/SplashScreen';
 import TabNavigator from './TabNavigator';
 
 const Stack = createStackNavigator();

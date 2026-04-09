@@ -1,8 +1,8 @@
 
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import FavoritesScreen from '../screens/FavoritesScreen';
-import MapScreen from '../screens/MapScreen';
+import HomeScreen from '../screens/Home/HomeScreen';
+import SearchScreen from '../screens/Search/SearchScreen';
+import FavoritesScreen from '../screens/Favorites/FavoritesScreen';
+import MapScreen from '../screens/Map/MapScreen';
 
 // Tab Configuration (fixed for FoodAtlas)
 export const TAB_ICON_MAP = {
