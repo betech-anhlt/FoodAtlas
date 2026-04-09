@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food App UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #eee;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      flex: 1;
+      outline: none;
+      padding: 5px;
+    }
+
+    .search-bar span {
+      margin: 0 5px;
+    }
+
+    /* Section title */
+    .section-title {
+      font-weight: bold;
+      margin: 15px 0 10px;
+      font-size: 18px;
+    }
+
+    /* Category */
+    .categories {
+      display: flex;
+      gap: 10px;
+    }
+
+    .category {
+      text-align: center;
+      flex: 1;
+    }
+
+    .category img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .category p {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    /* Grid items */
+    .grid {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .card {
+      min-width: 120px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+    }
+
+    .card p {
+      font-size: 12px;
+      padding: 5px;
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      border-top: 1px solid #ddd;
+      padding: 8px 0;
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>ホーム</h1>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" placeholder="料理名、食材、店舗を検索">
+    <span>🎤</span>
+  </div>
+
+  <!-- Categories -->
+  <div class="section-title">カテゴリ</div>
+  <div class="categories">
+    <div class="category">
+      <img src="https://via.placeholder.com/100" />
+      <p>和食</p>
+    </div>
+    <div class="category">
+      <img src="https://via.placeholder.com/100" />
+      <p>洋食</p>
+    </div>
+    <div class="category">
+      <img src="https://via.placeholder.com/100" />
+      <p>スイーツ</p>
+    </div>
+  </div>
+
+  <!-- Popular -->
+  <div class="section-title">人気メニュー</div>
+  <div class="grid">
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>海老</p>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>茸</p>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>牛肉</p>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>野菜</p>
+    </div>
+  </div>
+
+  <!-- Recommended -->
+  <div class="section-title">★ おすすめ料理</div>
+  <div class="grid">
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>カルボナーラ</p>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/150" />
+      <p>ラーメン</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div class="nav-item">🏠<br>ホーム</div>
+  <div class="nav-item">🔍<br>検索</div>
+  <div class="nav-item">❤️<br>お気に入り</div>
+  <div class="nav-item">📍<br>マップ</div>
+  <div class="nav-item">👤<br>マイページ</div>
+</div>
+
+</body>
+</html>
