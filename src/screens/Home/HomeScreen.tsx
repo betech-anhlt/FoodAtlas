@@ -8,17 +8,38 @@ import {
   StyleSheet,
   SafeAreaView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
+import { mockFeaturedFoods } from '../../utils/mockHomeData';
 
 import FoodCard from '../../components/FoodCard';
-import { mockFeaturedFoods, mockCategories } from '../../utils/mockHomeData';
+import { mockCategories } from '../../utils/mockHomeData';
+import { isNativeMapEnabled, getFoodSearchQuery, openExternalMap } from '../../utils/mapHelpers';
+
+
 
 const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+
+ const handleFoodPress = async (foodId: string, foodName: string) => {
+  if (isNativeMapEnabled()) {
+    navigation.navigate('Map', { foodId, foodName });
+  } else {
+      const { foodName: fn, address, latitude, longitude } = getFoodSearchQuery(foodId);
+      await openExternalMap(fn, address, latitude, longitude);
+  }
+ };
+
+ const testMapLog = () => {
+   const firstFood = mockFeaturedFoods[0];
+   handleFoodPress(firstFood.id, firstFood.name);
+ };
 
   useEffect(() => {
     setLoading(false);
@@ -35,14 +56,14 @@ const HomeScreen: React.FC = () => {
 
   // Popular & Recommended card
   const renderFoodCard = ({ item }: any) => {
-    return <FoodCard {...item} />;
+    return <FoodCard {...item} onPress={handleFoodPress} />;
   };
 
-  // Recommended card nhỏ hơn
+  // Recommended card 
   const renderRecommendedCard = ({ item }: any) => {
     return (
       <View style={styles.recommendedWrapper}>
-        <FoodCard {...item} />
+        <FoodCard {...item} onPress={handleFoodPress} />
       </View>
     );
   };
@@ -60,8 +81,14 @@ const HomeScreen: React.FC = () => {
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
-         <Icon name="microphone" size={18} color="#666" style={styles.micIcon} />
+        <Icon name="microphone" size={18} color="#666" />
       </View>
+
+      {/* Test Map Log Button */}
+      <TouchableOpacity style={styles.testButton} onPress={testMapLog}>
+        <Icon name="map-marker" size={16} color="#fff" />
+        <Text style={styles.testButtonText}>Test Map Log (Screen Alert + Terminal)</Text>
+      </TouchableOpacity>
 
       {/* Categories */}
       <Text style={styles.sectionTitle}>Categories</Text>
@@ -119,7 +146,7 @@ const styles = StyleSheet.create({
 
   scroll: {
     padding: 16,
-    paddingBottom: 80, // để scroll thoải mái
+    paddingBottom: 80, 
   },
 
   title: {
@@ -140,6 +167,23 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginLeft: 8,
+  },
+
+  testButton: {
+    flexDirection: 'row',
+    backgroundColor: '#007AFF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+
+  testButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 8,
+    fontSize: 16,
   },
 
   sectionTitle: {
@@ -175,10 +219,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  // 🔽 Recommended wrapper để làm card nhỏ hơn
   recommendedWrapper: {
     flex: 1,
     margin: 6,
-    transform: [{ scale: 0.9 }], // 👈 làm nhỏ card
+    transform: [{ scale: 0.9 }], 
   },
 });
+

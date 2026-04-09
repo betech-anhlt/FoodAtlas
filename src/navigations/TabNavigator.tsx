@@ -1,21 +1,33 @@
 import React, { useCallback } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
 
 import {
   TAB_ICON_MAP,
   VISIBLE_TABS,
-  TAB_BAR_HEIGHT,
-  TAB_BAR_PADDING_TOP,
-  TAB_BAR_PADDING_BOTTOM,
-  TAB_ICON_SIZE,
 } from './navigationConstants';
 
+import HomeScreen from '../screens/Home/HomeScreen';
+import SearchScreen from '../screens/Search/SearchScreen';
+import FavoritesScreen from '../screens/Favorites/FavoritesScreen';
+import MapScreen from '../screens/Map/MapScreen';
+
+const TAB_BAR_HEIGHT = 60;
+const TAB_BAR_PADDING_TOP = 8;
+const TAB_BAR_PADDING_BOTTOM = 8;
+const TAB_ICON_SIZE = 20;
+
 const Tab = createBottomTabNavigator();
+
+const SCREEN_MAP: Record<string, React.ComponentType> = {
+  Home: HomeScreen,
+  Search: SearchScreen,
+  Favorites: FavoritesScreen,
+  Map: MapScreen,
+};
 
 const TabNavigator: React.FC = () => {
   const { t } = useTranslation();
@@ -24,8 +36,8 @@ const TabNavigator: React.FC = () => {
   const totalTabBarHeight = TAB_BAR_HEIGHT + insets.bottom;
 
   const screenOptions = useCallback(
-    ({ route }) => ({
-      tabBarIcon: ({ focused }) => {
+    ({ route }: { route: any }) => ({
+      tabBarIcon: ({ focused }: { focused: boolean }) => {
         const config =
           TAB_ICON_MAP[route.name as keyof typeof TAB_ICON_MAP] || {};
 
@@ -42,7 +54,7 @@ const TabNavigator: React.FC = () => {
             ]}
           >
             <Icon
-              name={iconName}
+              name={iconName as string}
               size={TAB_ICON_SIZE}
               color={focused ? '#FFFFFF' : '#1F2937'}
             />
@@ -59,37 +71,33 @@ const TabNavigator: React.FC = () => {
           </View>
         );
       },
-      tabBarButton: (props) => (
-  <Pressable
-    {...props}
-    android_ripple={{ color: 'transparent' }}
-    style={({ pressed }) => [
-      props.style,
-      {
-        transform: [{ scale: pressed ? 0.95 : 1 }],
-      },
-    ]}
-  />
-),
-
+      tabBarButton: (props: any) => (
+        <Pressable
+          {...props}
+          android_ripple={{ color: 'transparent' }}
+          style={({ pressed }: { pressed: boolean }) => [
+            props.style,
+            {
+              transform: [{ scale: pressed ? 0.95 : 1 }],
+            },
+          ]}
+        />
+      ),
       tabBarStyle: {
         backgroundColor: '#FFFFFF',
         height: totalTabBarHeight,
         paddingBottom: TAB_BAR_PADDING_BOTTOM + insets.bottom,
         paddingTop: TAB_BAR_PADDING_TOP,
         borderTopWidth: 0,
-        // shadow đẹp hơn
         elevation: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.08,
         shadowRadius: 6,
       },
-
       tabBarItemStyle: {
         flex: 1,
       },
-
       tabBarLabel: () => null,
       headerShown: false,
     }),
@@ -98,13 +106,16 @@ const TabNavigator: React.FC = () => {
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      {VISIBLE_TABS.map(tab => (
-        <Tab.Screen
-          key={tab.key}
-          name={tab.name}
-          component={tab.component}
-        />
-      ))}
+      {VISIBLE_TABS.map(tab => {
+        const Component = SCREEN_MAP[tab.name];
+        return (
+          <Tab.Screen
+            key={tab.key}
+            name={tab.name}
+            component={Component}
+          />
+        );
+      })}
     </Tab.Navigator>
   );
 };
