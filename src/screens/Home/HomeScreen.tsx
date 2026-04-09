@@ -6,7 +6,6 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  ScrollView,
   SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -57,52 +56,70 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 
+  const getRecommendedItemLayout = (_data: any, _index: number) => ({
+    length: 140,
+    offset: 140 * _index,
+    index: _index,
+  });
+
+  const HeaderComponent = () => (
+    <>
+      <Text style={styles.title}>{t('nav.home') || 'Home'}</Text>
+
+      {/* Search Bar */}
+      <View style={styles.searchBar}>
+        <Icon name="search" size={20} color="#666" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search dishes, ingredients, restaurants"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        <Icon name="microphone" size={20} color="#666" style={styles.searchMic} />
+      </View>
+
+      {/* Categories */}
+      <Text style={styles.sectionTitle}>Categories</Text>
+      <FlatList
+        data={categories}
+        renderItem={renderCategory}
+        horizontal={false}
+        numColumns={3}
+        style={styles.categoryList}
+        scrollEnabled={false}
+      />
+
+      {/* Popular */}
+      <Text style={styles.sectionTitle}>Popular Menu</Text>
+      <FlatList
+        data={popular}
+        renderItem={renderMenuItem}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.grid}
+      />
+
+      {/* Recommended Title */}
+      <Text style={styles.sectionTitle}>★ Recommended</Text>
+    </>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>{t('nav.home') || 'Home'}</Text>
-
-        {/* Search Bar */}
-        <View style={styles.searchBar}>
-          <Icon name="search" size={20} color="#666" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search dishes, ingredients, restaurants"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-          <Icon name="microphone" size={20} color="#666" style={styles.searchMic} />
-        </View>
-
-        {/* Categories */}
-        <Text style={styles.sectionTitle}>Categories</Text>
-        <FlatList
-          data={categories}
-          renderItem={renderCategory}
-          horizontal={false}
-          numColumns={3}
-          style={styles.categoryList}
-        />
-
-        {/* Popular */}
-        <Text style={styles.sectionTitle}>Popular Menu</Text>
-        <FlatList
-          data={popular}
-          renderItem={renderMenuItem}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.grid}
-        />
-
-        {/* Recommended */}
-        <Text style={styles.sectionTitle}>★ Recommended</Text>
-        <FlatList
-          data={recommended}
-          renderItem={renderMenuItem}
-          numColumns={2}
-          contentContainerStyle={styles.grid}
-        />
-      </ScrollView>
+      <FlatList
+        data={recommended}
+        ListHeaderComponent={HeaderComponent}
+        renderItem={renderMenuItem}
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+        getItemLayout={getRecommendedItemLayout}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        initialNumToRender={10}
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 };
