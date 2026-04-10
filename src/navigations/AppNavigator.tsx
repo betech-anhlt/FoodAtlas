@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from '../screens/Splash/SplashScreen';
 import TabNavigator from './TabNavigator';
-import FoodListScreen from '../screens/FoodList/FoodListScreen';
+
 import ResultSearchFoodScreen from '../screens/ResultSearch/ResultSearchFoodScreen';
 
 const Stack = createStackNavigator();
@@ -25,7 +25,7 @@ const AppNavigatorContent = () => {
   return (
     <Stack.Navigator initialRouteName="Main" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={TabNavigator} />
-      <Stack.Screen name="FoodListScreen" component={FoodListScreen} options={{ headerShown: false }} />
+
       <Stack.Screen name="ResultSearchFoodScreen" component={ResultSearchFoodScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
