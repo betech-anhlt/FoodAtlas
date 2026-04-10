@@ -30,7 +30,7 @@ const HomeScreen: React.FC = () => {
   const { settings } = useSettings();
 
  const handleFoodPress = (foodId: string, foodName: string) => {
-  navigation.navigate('FoodListScreen');
+  navigation.navigate('ResultSearchFoodScreen' as never, { foodName });
  };
 
 
