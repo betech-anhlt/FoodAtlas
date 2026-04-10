@@ -1,5 +1,5 @@
 import { SERPAPI_KEY } from './constants.js';
-import type { SerpLocalResult, SerpApiResponse } from '../types/serpapi.js';
+// import type { SerpLocalResult, SerpApiResponse } from '../types/serpapi.js';
 
 export const fetchSerpFoodPlaces = async (foodName, city = 'Hanoi', country = 'Vietnam') => {
   try {

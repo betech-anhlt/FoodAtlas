@@ -7,7 +7,6 @@ import {
   Image,
   StyleSheet,
   ActivityIndicator,
-  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -34,9 +33,9 @@ const HomeScreen: React.FC = () => {
  };
 
 
- const testMapLog = () => {
-   navigation.navigate('ResultSearchFoodScreen' as never, { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
- };
+// const testMapLog = () => {
+//   navigation.navigate('ResultSearchFoodScreen', { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
+// };
 
   useEffect(() => {
     setLoading(false);
