@@ -5,6 +5,7 @@ import {
   TextInput,
   FlatList,
   Image,
+  ScrollView,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
@@ -64,79 +65,61 @@ const HomeScreen: React.FC = () => {
     );
   };
 
-  const Header = () => (
-    <View>
-      <Text style={styles.title}>{t('nav.home') || 'Home'}</Text>
 
-      {/* Settings Example */}
-      {/* <View style={styles.settingsDisplay}>
-        <Text style={styles.settingsText}>Current Settings:</Text>
-        <Text>Country: {settings.country}</Text>
-        <Text>City: {settings.city}</Text>
-        <Text>Language: {settings.language}</Text>
-      </View> */}
-
-      {/* Search */}
-      <View style={styles.searchBar}>
-        <Icon name="search" size={18} color="#666" />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search dishes, restaurants..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          onSubmitEditing={() => searchQuery.trim() && navigation.navigate('ResultSearchFoodScreen' as never, { foodName: searchQuery.trim() })}
-          returnKeyType="search"
-        />
-        <Icon name="microphone" size={18} color="#666" />
-      </View>
-
-      {/* Test Map Log Button */}
-      {/* <TouchableOpacity style={styles.testButton} onPress={testMapLog}>
-        <Icon name="map-marker" size={16} color="#fff" />
-        <Text style={styles.testButtonText}>Test Map Log (Screen Alert + Terminal)</Text>
-      </TouchableOpacity> */}
-
-      {/* Categories */}
-      <Text style={styles.sectionTitle}>Categories</Text>
-      <FlatList
-        data={mockCategories}
-        renderItem={renderCategory}
-        horizontal
-        keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.horizontalList}
-      />
-
-      {/* Popular */}
-      <Text style={styles.sectionTitle}>Popular Menu</Text>
-      <FlatList
-        data={mockFeaturedFoods.slice(0, 8)}
-        renderItem={renderFoodCard}
-        horizontal
-        keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.horizontalList}
-      />
-
-      {/* Recommended Title */}
-      <Text style={styles.sectionTitle}>★ Recommended</Text>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#333" style={{ flex: 1 }} />
       ) : (
-        <FlatList
-          data={mockFeaturedFoods.slice(8)}
-          ListHeaderComponent={Header}
-          renderItem={renderRecommendedCard}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scroll}
-        />
+        <View>
+          <View style={styles.searchBar}>
+            <Icon name="search" size={18} color="#666" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search dishes, restaurants..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onSubmitEditing={() => searchQuery.trim() && navigation.navigate('ResultSearchFoodScreen' as never, { foodName: searchQuery.trim() })}
+              returnKeyType="search"
+            />
+            <Icon name="microphone" size={18} color="#666" />
+          </View>
+          <ScrollView style={styles.scroll}>
+            {/* Categories */}
+            <Text style={styles.sectionTitle}>{t('home.categories')}</Text>
+            <FlatList
+              data={mockCategories}
+              renderItem={renderCategory}
+              horizontal
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.horizontalList}
+            />
+
+            {/* Popular */}
+            <Text style={styles.sectionTitle}>{t('home.popularMenu')}</Text>
+            <FlatList
+              data={mockFeaturedFoods.slice(0, 8)}
+              renderItem={renderFoodCard}
+              horizontal
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.horizontalList}
+            />
+
+            {/* Recommended */}
+            <Text style={styles.sectionTitle}>{t('home.recommended')}</Text>
+            <FlatList
+              data={mockFeaturedFoods.slice(8)}
+              renderItem={renderRecommendedCard}
+              keyExtractor={(item) => item.id}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContent}
+            />
+          </ScrollView>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -151,8 +134,8 @@ const styles = StyleSheet.create({
   },
 
   scroll: {
-    padding: 16,
-    paddingBottom: 80, 
+    paddingTop: 8,
+    paddingBottom: 100,
   },
 
   title: {
@@ -175,9 +158,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#eee',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 12,
   },
 
   searchInput: {
@@ -205,7 +188,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 16,
     marginBottom: 10,
   },
 
@@ -239,6 +222,9 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 4,
     transform: [{ scale: 0.9 }], 
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
 });
 

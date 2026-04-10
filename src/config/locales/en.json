@@ -8,5 +8,14 @@
   },
   "settings": {
     "title": "Settings"
+  },
+  "screen": {
+    "resultSearch": "Results for {{food}}"
+  },
+  "home": {
+    "categories": "Categories",
+    "popularMenu": "Popular Menu",
+    "recommended": "★ Recommended"
   }
 }
+

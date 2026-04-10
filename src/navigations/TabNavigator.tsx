@@ -10,6 +10,7 @@ import {
   TAB_ICON_MAP,
   VISIBLE_TABS,
 } from './navigationConstants';
+import CommonHeader from '../components/CommonHeader';
 
 import HomeScreen from '../screens/Home/HomeScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
@@ -38,7 +39,7 @@ const TabNavigator: React.FC = () => {
   const totalTabBarHeight = TAB_BAR_HEIGHT + insets.bottom;
 
     const screenOptions = useCallback(
-({ route }: { route: any }) => ({
+({ route }: any) => ({
       tabBarIcon: ({ focused }: { focused: boolean }) => {
         const config =
           TAB_ICON_MAP[route.name as keyof typeof TAB_ICON_MAP] || {};
@@ -103,6 +104,7 @@ const TabNavigator: React.FC = () => {
       tabBarLabel: () => null,
       headerShown: false,
     }),
+
     [t, insets.bottom, totalTabBarHeight],
   );
 
@@ -111,11 +113,15 @@ const TabNavigator: React.FC = () => {
       {VISIBLE_TABS.map(tab => {
         const Component = SCREEN_MAP[tab.name];
         return (
-          <Tab.Screen
+<Tab.Screen
             key={tab.key}
             name={tab.name}
             component={Component}
+            options={{
+              title: t(`nav.${tab.name.toLowerCase()}`) || tab.name
+            }}
           />
+
         );
       })}
     </Tab.Navigator>

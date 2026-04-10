@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 const FavoritesScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Favorites Tab</Text>
+      {/* Title moved to header */}
       <Text>(trái tim / ưa thích)</Text>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },

@@ -19,7 +19,7 @@ const cities = {
   Japan: ['Tokyo', 'Osaka', 'Kyoto'],
   France: ['Paris', 'Marseille', 'Lyon'],
 };
-const languages = ['en', 'vi'];
+const languages = ['en', 'vi', 'ja'];
 
 const SettingsScreen: React.FC = () => {
   const { t } = useTranslation();
