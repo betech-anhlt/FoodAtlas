@@ -103,8 +103,6 @@ const SettingsScreen: React.FC = () => {
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Save Settings</Text>
       </TouchableOpacity>
-
-      <Text style={styles.current}>Current: {JSON.stringify(settings, null, 2)}</Text>
     </ScrollView>
   );
 };

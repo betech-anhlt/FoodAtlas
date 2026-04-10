@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
-const horizCardWidth = 110;
+const horizCardWidth = 95;
 
 interface FoodCardProps {
   id: string;
@@ -82,4 +81,3 @@ const styles = StyleSheet.create({
 });
 
 export default FoodCard;
-

@@ -77,9 +77,7 @@ const ResultSearchFoodScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>{foodName} ({filteredPlaces.length} places)</Text>
-      
+<SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -119,12 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 16,
-    backgroundColor: 'white',
-  },
+  /* header removed */
   list: {
     padding: 16,
   },

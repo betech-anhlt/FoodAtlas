@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
 
+
 import {
   TAB_ICON_MAP,
   VISIBLE_TABS,
@@ -36,8 +37,8 @@ const TabNavigator: React.FC = () => {
 
   const totalTabBarHeight = TAB_BAR_HEIGHT + insets.bottom;
 
-  const screenOptions = useCallback(
-    ({ route }: { route: any }) => ({
+    const screenOptions = useCallback(
+({ route }: { route: any }) => ({
       tabBarIcon: ({ focused }: { focused: boolean }) => {
         const config =
           TAB_ICON_MAP[route.name as keyof typeof TAB_ICON_MAP] || {};
