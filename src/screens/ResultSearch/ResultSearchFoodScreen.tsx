@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
+  TextInput,
   FlatList,
   StyleSheet,
   ActivityIndicator,
@@ -21,6 +22,7 @@ const ResultSearchFoodScreen: React.FC = () => {
   const [places, setPlaces] = useState<SerpLocalResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const searchPlaces = async () => {
@@ -32,7 +34,7 @@ const ResultSearchFoodScreen: React.FC = () => {
         const { city = 'Hanoi', country = 'Vietnam' } = params;
         const results = await fetchSerpFoodPlaces(foodName, city, country);
         console.log('SerpAPI results:', results.length); // Debug log
-        setPlaces(results);
+        setPlaces(results.slice(0, 20));
       } catch (err) {
         console.error('Search error:', err);
         setError(`Failed to fetch: ${(err as Error).message}`);
@@ -70,19 +72,42 @@ const ResultSearchFoodScreen: React.FC = () => {
     );
   }
 
+  const filteredPlaces = places.filter(place =>
+    place.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>{foodName} ({places.length} places)</Text>
+      <Text style={styles.header}>{foodName} ({filteredPlaces.length} places)</Text>
+      
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Tìm kiếm nhà hàng..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCapitalize="none"
+          returnKeyType="search"
+        />
+      </View>
+
       {error ? (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{error}</Text>
         </View>
       ) : (
         <FlatList
-          data={places}
+          data={filteredPlaces}
           renderItem={renderPlace}
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={styles.list}
+          ListEmptyComponent={
+            filteredPlaces.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>Không tìm thấy nhà hàng nào</Text>
+              </View>
+            ) : undefined
+          }
         />
       )}
     </SafeAreaView>
@@ -155,6 +180,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     fontSize: 16,
+  },
+  searchContainer: {
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  searchInput: {
+    backgroundColor: '#f8f9fa',
+    padding: 14,
+    borderRadius: 12,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
+    elevation: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 40,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
   },
 });
 
