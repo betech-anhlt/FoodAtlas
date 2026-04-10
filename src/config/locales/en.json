@@ -3,6 +3,10 @@
     "home": "Home",
     "search": "Search",
     "favorites": "Favorites",
-    "map": "Map"
+    "map": "Map",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings"
   }
 }

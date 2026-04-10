@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
 import { fetchSerpFoodPlaces } from '../../services/apiSerpapi';
+import { useSettings } from '../../contexts/SettingsContext';
 import type { SerpLocalResult } from '../../types/serpapi';
 
 const ResultSearchFoodScreen: React.FC = () => {
@@ -19,6 +20,7 @@ const ResultSearchFoodScreen: React.FC = () => {
   const params = route.params || {};
   const foodName = (params as any).foodName || 'Food';
 
+  const { settings } = useSettings();
   const [places, setPlaces] = useState<SerpLocalResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -29,10 +31,8 @@ const ResultSearchFoodScreen: React.FC = () => {
       try {
         setLoading(true);
         setError('');
-        console.log('Searching for:', foodName, params); // Debug log
-        // Pass city/country if available from params, default Hanoi
-        const { city = 'Hanoi', country = 'Vietnam' } = params;
-        const results = await fetchSerpFoodPlaces(foodName, city, country);
+        console.log('Searching for:', foodName, params, settings.city, settings.country); // Debug log
+        const results = await fetchSerpFoodPlaces(foodName, settings.city, settings.country);
         console.log('SerpAPI results:', results.length); // Debug log
         setPlaces(results.slice(0, 20));
       } catch (err) {
@@ -44,7 +44,7 @@ const ResultSearchFoodScreen: React.FC = () => {
     };
 
     searchPlaces();
-  }, [foodName, params]);
+  }, [foodName, params, settings.city, settings.country]);
 
   const renderPlace = ({ item }: { item: SerpLocalResult }) => (
     <TouchableOpacity style={styles.placeItem}>

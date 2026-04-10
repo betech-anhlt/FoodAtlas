@@ -13,6 +13,7 @@ import {
 import HomeScreen from '../screens/Home/HomeScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import FavoritesScreen from '../screens/Favorites/FavoritesScreen';
+import SettingsScreen from '../screens/Settings/SettingsScreen';
 
 
 const TAB_BAR_HEIGHT = 60;
@@ -26,7 +27,7 @@ const SCREEN_MAP: Record<string, React.ComponentType> = {
   Home: HomeScreen,
   Search: SearchScreen,
   Favorites: FavoritesScreen,
-
+  Settings: SettingsScreen,
 };
 
 const TabNavigator: React.FC = () => {

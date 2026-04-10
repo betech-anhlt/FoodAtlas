@@ -7,7 +7,6 @@ import {
   Image,
   StyleSheet,
   ActivityIndicator,
-  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { mockFeaturedFoods } from '../../utils/mockHomeData';
 
 import FoodCard from '../../components/FoodCard';
+import { useSettings } from '../../contexts/SettingsContext';
 import { mockCategories } from '../../utils/mockHomeData';
+
 
 
 
@@ -25,14 +26,16 @@ const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const { settings } = useSettings();
 
  const handleFoodPress = (foodId: string, foodName: string) => {
   navigation.navigate('ResultSearchFoodScreen' as never, { foodName });
  };
 
- const testMapLog = () => {
-   navigation.navigate('ResultSearchFoodScreen' as never, { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
- };
+
+// const testMapLog = () => {
+//   navigation.navigate('ResultSearchFoodScreen', { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
+// };
 
   useEffect(() => {
     setLoading(false);
@@ -64,6 +67,14 @@ const HomeScreen: React.FC = () => {
   const Header = () => (
     <View>
       <Text style={styles.title}>{t('nav.home') || 'Home'}</Text>
+
+      {/* Settings Example */}
+      <View style={styles.settingsDisplay}>
+        <Text style={styles.settingsText}>Current Settings:</Text>
+        <Text>Country: {settings.country}</Text>
+        <Text>City: {settings.city}</Text>
+        <Text>Language: {settings.language}</Text>
+      </View>
 
       {/* Search */}
       <View style={styles.searchBar}>
@@ -148,6 +159,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     marginVertical: 10,
+  },
+  settingsDisplay: {
+    backgroundColor: '#f0f8ff',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  settingsText: {
+    fontSize: 14,
+    color: '#333',
   },
 
   searchBar: {
