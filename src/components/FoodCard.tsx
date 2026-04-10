@@ -11,24 +11,34 @@ interface FoodCardProps {
   name: string;
   address: string;
   onSearchPress?: () => void;
+  onPress?: (foodId: string, foodName: string) => void;
 }
 
-const FoodCard: React.FC<FoodCardProps> = ({ id, image, name, address, onSearchPress }) => {
+const FoodCard: React.FC<FoodCardProps> = ({ id, image, name, address, onSearchPress, onPress }) => {
   return (
-    <View style={styles.card} key={id}>
+    <TouchableOpacity 
+      style={styles.touchableCard}
+      activeOpacity={0.8}
+      onPress={() => onPress?.(id, name)}
+    >
+      <View style={styles.card} key={id}>
 <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
-      <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={1}>{name}</Text>
-        <Text style={styles.address} numberOfLines={1}>{address}</Text>
+        <View style={styles.info}>
+          <Text style={styles.name} numberOfLines={1}>{name}</Text>
+          <Text style={styles.address} numberOfLines={1}>{address}</Text>
+        </View>
+        <TouchableOpacity style={styles.searchIconContainer} onPress={onSearchPress}>
+          <Icon name="search" size={18} color="#666" />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.searchIconContainer} onPress={onSearchPress}>
-        <Icon name="search" size={18} color="#666" />
-      </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  touchableCard: {
+    flex: 1,
+  },
   card: {
     backgroundColor: 'white',
     borderRadius: 10,
