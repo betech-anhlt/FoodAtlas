@@ -6,10 +6,10 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  SafeAreaView,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,6 @@ import { mockFeaturedFoods } from '../../utils/mockHomeData';
 
 import FoodCard from '../../components/FoodCard';
 import { mockCategories } from '../../utils/mockHomeData';
-import { isNativeMapEnabled, getFoodSearchQuery, openExternalMap } from '../../utils/mapHelpers';
 
 
 
@@ -27,18 +26,12 @@ const HomeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
- const handleFoodPress = async (foodId: string, foodName: string) => {
-  if (isNativeMapEnabled()) {
-    navigation.navigate('Map', { foodId, foodName });
-  } else {
-      const { foodName: fn, address, latitude, longitude } = getFoodSearchQuery(foodId);
-      await openExternalMap(fn, address, latitude, longitude);
-  }
+ const handleFoodPress = (foodId: string, foodName: string) => {
+  navigation.navigate('FoodListScreen');
  };
 
  const testMapLog = () => {
-   const firstFood = mockFeaturedFoods[0];
-   handleFoodPress(firstFood.id, firstFood.name);
+   navigation.navigate('ResultSearchFoodScreen' as never, { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
  };
 
   useEffect(() => {
@@ -80,15 +73,17 @@ const HomeScreen: React.FC = () => {
           placeholder="Search dishes, restaurants..."
           value={searchQuery}
           onChangeText={setSearchQuery}
+          onSubmitEditing={() => searchQuery.trim() && navigation.navigate('ResultSearchFoodScreen' as never, { foodName: searchQuery.trim() })}
+          returnKeyType="search"
         />
         <Icon name="microphone" size={18} color="#666" />
       </View>
 
       {/* Test Map Log Button */}
-      <TouchableOpacity style={styles.testButton} onPress={testMapLog}>
+      {/* <TouchableOpacity style={styles.testButton} onPress={testMapLog}>
         <Icon name="map-marker" size={16} color="#fff" />
         <Text style={styles.testButtonText}>Test Map Log (Screen Alert + Terminal)</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Categories */}
       <Text style={styles.sectionTitle}>Categories</Text>

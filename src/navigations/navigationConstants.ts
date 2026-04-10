@@ -1,7 +1,6 @@
 import HomeScreen from '../screens/Home/HomeScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import FavoritesScreen from '../screens/Favorites/FavoritesScreen';
-import MapScreen from '../screens/Map/MapScreen';
 
 export interface TabIconConfig {
   icon: string;
@@ -13,7 +12,6 @@ export const TAB_ICON_MAP: Record<string, TabIconConfig> = {
   Home: { icon: 'home', unfocusedIcon: 'home', labelKey: 'nav.home' },
   Search: { icon: 'search', unfocusedIcon: 'search', labelKey: 'nav.search' },
   Favorites: { icon: 'heart', unfocusedIcon: 'heart', labelKey: 'nav.favorites' },
-  Map: { icon: 'map-marker', unfocusedIcon: 'map-marker', labelKey: 'nav.map' },
 };
 
 export interface TabType {
@@ -26,7 +24,6 @@ export const ALL_TABS: TabType[] = [
   { key: 'home', name: 'Home', component: HomeScreen },
   { key: 'search', name: 'Search', component: SearchScreen },
   { key: 'favorites', name: 'Favorites', component: FavoritesScreen },
-  { key: 'map', name: 'Map', component: MapScreen },
 ];
 
 export const VISIBLE_TABS: TabType[] = ALL_TABS;
