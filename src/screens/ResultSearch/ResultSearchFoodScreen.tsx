@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
-import { fetchSerpFoodPlaces } from '../../services/apiSerpapi';
+import { useSerpApi } from '../../hooks/useSerpApi';
 import type { SerpLocalResult } from '../../types/serpapi';
 
 const ResultSearchFoodScreen: React.FC = () => {
@@ -19,6 +19,7 @@ const ResultSearchFoodScreen: React.FC = () => {
   const params = route.params || {};
   const foodName = (params as any).foodName || 'Food';
 
+  const serpApi = useSerpApi();
   const [places, setPlaces] = useState<SerpLocalResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -30,9 +31,7 @@ const ResultSearchFoodScreen: React.FC = () => {
         setLoading(true);
         setError('');
         console.log('Searching for:', foodName, params); // Debug log
-        // Pass city/country if available from params, default Hanoi
-        const { city = 'Hanoi', country = 'Vietnam' } = params;
-        const results = await fetchSerpFoodPlaces(foodName, city, country);
+        const results = await serpApi.fetchSerpFoodPlaces(foodName);
         console.log('SerpAPI results:', results.length); // Debug log
         setPlaces(results.slice(0, 20));
       } catch (err) {

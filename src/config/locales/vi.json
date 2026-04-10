@@ -3,6 +3,10 @@
     "home": "Trang chủ",
     "search": "Tìm kiếm",
     "favorites": "Ưa thích",
-    "map": "Bản đồ"
+    "map": "Bản đồ",
+    "settings": "Cài đặt"
+  },
+  "settings": {
+    "title": "Cài đặt"
   }
 }
