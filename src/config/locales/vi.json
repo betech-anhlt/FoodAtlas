@@ -8,5 +8,14 @@
   },
   "settings": {
     "title": "Cài đặt"
+  },
+  "screen": {
+    "resultSearch": "Kết quả cho {{food}}"
+  },
+  "home": {
+    "categories": "Danh mục",
+    "popularMenu": "Món phổ biến",
+    "recommended": "★ Đề xuất"
   }
 }
+

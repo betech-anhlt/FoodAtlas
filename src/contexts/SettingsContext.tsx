@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from '../config/i18n';
 
 type Settings = {
   country: string;
@@ -67,6 +68,10 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const updateSettings = (updates: Partial<Settings>) => {
     dispatch({ type: 'UPDATE_SETTINGS', payload: updates });
+    // Change i18n language
+    if (updates.language) {
+      i18n.changeLanguage(updates.language);
+    }
   };
 
   return (

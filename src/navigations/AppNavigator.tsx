@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -10,6 +12,7 @@ import CommonHeader from '../components/CommonHeader';
 const Stack = createStackNavigator();
 
 const AppNavigatorContent = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,18 +22,24 @@ const AppNavigatorContent = () => {
 
   if (loading) return <SplashScreen />;
 
+
   return (
     <Stack.Navigator
       initialRouteName="Main"
       screenOptions={({ route }) => ({
         headerShown: true,
 
-        headerTitle: () => (
-          <CommonHeader
-            title={route.name === 'Main' ? 'Home' : route.name}
-            showBack={route.name !== 'Main'}
-          />
-        ),
+        headerTitle: () => {
+          if (route.name === 'Main') {
+            return <CommonHeader title={t('nav.home')} showBack={false} />;
+          }
+          if (route.name === 'ResultSearchFoodScreen') {
+            const foodName = (route.params as any)?.foodName || '';
+            return <CommonHeader title={t('screen.resultSearch', { food: foodName })} showBack={true} />;
+          }
+          return <CommonHeader title={route.name} showBack={true} />;
+        },
+
 
         headerLeft: () => null,
 

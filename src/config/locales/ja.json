@@ -1,0 +1,21 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "search": "検索",
+    "favorites": "お気に入り",
+    "map": "地図",
+    "settings": "設定"
+  },
+  "settings": {
+    "title": "設定"
+  },
+  "screen": {
+    "resultSearch": "{{food}}の検索結果"
+  },
+  "home": {
+    "categories": "カテゴリー",
+    "popularMenu": "人気メニュー",
+    "recommended": "★ おすすめ"
+  }
+}
+
