@@ -13,34 +13,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
-import { mockFeaturedFoods } from '../../utils/mockHomeData';
 
 import FoodCard from '../../components/FoodCard';
-import { useSettings } from '../../contexts/SettingsContext';
-import { mockCategories } from '../../utils/mockHomeData';
-
-
-
+import { mockFeaturedFoods, mockCategories } from '../../utils/mockHomeData';
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const { settings } = useSettings();
-
- const handleFoodPress = (foodId: string, foodName: string) => {
-  navigation.navigate('ResultSearchFoodScreen' as never, { foodName });
- };
-
-
-// const testMapLog = () => {
-//   navigation.navigate('ResultSearchFoodScreen', { foodName: 'coffee', city: 'Hanoi', country: 'Vietnam' }); // Test SerpAPI Coffee example from TODO.md
-// };
 
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  const handleFoodPress = (foodId: string, foodName: string) => {
+    navigation.navigate('ResultSearchFoodScreen' as never, { foodName });
+  };
 
   const renderCategory = ({ item }: any) => (
     <View style={styles.categoryCard}>
@@ -51,28 +41,23 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 
-  // Popular & Recommended card
-  const renderFoodCard = ({ item }: any) => {
-    return <FoodCard {...item} onPress={handleFoodPress} />;
-  };
+  const renderFoodCard = ({ item }: any) => (
+    <FoodCard {...item} onPress={handleFoodPress} />
+  );
 
-  // Recommended card 
-  const renderRecommendedCard = ({ item }: any) => {
-    return (
-      <View style={styles.recommendedWrapper}>
-        <FoodCard {...item} onPress={handleFoodPress} />
-      </View>
-    );
-  };
-
-
+  const renderRecommendedCard = ({ item }: any) => (
+    <View style={styles.recommendedWrapper}>
+      <FoodCard {...item} onPress={handleFoodPress} />
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#333" style={{ flex: 1 }} />
       ) : (
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* SEARCH */}
           <View style={styles.searchBar}>
             <Icon name="search" size={18} color="#666" />
             <TextInput
@@ -80,14 +65,24 @@ const HomeScreen: React.FC = () => {
               placeholder="Search dishes, restaurants..."
               value={searchQuery}
               onChangeText={setSearchQuery}
-              onSubmitEditing={() => searchQuery.trim() && navigation.navigate('ResultSearchFoodScreen' as never, { foodName: searchQuery.trim() })}
               returnKeyType="search"
+              onSubmitEditing={() =>
+                searchQuery.trim() &&
+                navigation.navigate('ResultSearchFoodScreen' as never, {
+                  foodName: searchQuery.trim(),
+                })
+              }
             />
             <Icon name="microphone" size={18} color="#666" />
           </View>
-          <ScrollView style={styles.scroll}>
-            {/* Categories */}
-            <Text style={styles.sectionTitle}>{t('home.categories')}</Text>
+
+          {/* WRAPPER CHUNG -> FIX LỆCH LỀ */}
+          <View style={styles.content}>
+            {/* CATEGORIES */}
+            <Text style={styles.sectionTitle}>
+              {t('home.categories')}
+            </Text>
+
             <FlatList
               data={mockCategories}
               renderItem={renderCategory}
@@ -97,8 +92,11 @@ const HomeScreen: React.FC = () => {
               contentContainerStyle={styles.horizontalList}
             />
 
-            {/* Popular */}
-            <Text style={styles.sectionTitle}>{t('home.popularMenu')}</Text>
+            {/* POPULAR */}
+            <Text style={styles.sectionTitle}>
+              {t('home.popularMenu')}
+            </Text>
+
             <FlatList
               data={mockFeaturedFoods.slice(0, 8)}
               renderItem={renderFoodCard}
@@ -108,18 +106,21 @@ const HomeScreen: React.FC = () => {
               contentContainerStyle={styles.horizontalList}
             />
 
-            {/* Recommended */}
-            <Text style={styles.sectionTitle}>{t('home.recommended')}</Text>
+            {/* RECOMMENDED */}
+            <Text style={styles.sectionTitle}>
+              {t('home.recommended')}
+            </Text>
+
             <FlatList
               data={mockFeaturedFoods.slice(8)}
               renderItem={renderRecommendedCard}
               keyExtractor={(item) => item.id}
               numColumns={2}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.scrollContent}
+              scrollEnabled={false}
+              contentContainerStyle={styles.gridList}
             />
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -133,25 +134,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
 
-  scroll: {
-    paddingTop: 8,
+  content: {
+    paddingHorizontal: 16,
     paddingBottom: 100,
-  },
-
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  settingsDisplay: {
-    backgroundColor: '#f0f8ff',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 20,
-  },
-  settingsText: {
-    fontSize: 14,
-    color: '#333',
   },
 
   searchBar: {
@@ -160,29 +145,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     padding: 12,
     borderRadius: 12,
+    marginHorizontal: 16,
+    marginTop: 10,
     marginBottom: 12,
   },
 
   searchInput: {
     flex: 1,
     marginLeft: 8,
-  },
-
-  testButton: {
-    flexDirection: 'row',
-    backgroundColor: '#007AFF',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-
-  testButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 8,
-    fontSize: 16,
   },
 
   sectionTitle: {
@@ -196,6 +166,10 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
 
+  gridList: {
+    paddingBottom: 20,
+  },
+
   categoryCard: {
     width: 80,
     alignItems: 'center',
@@ -203,7 +177,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 10,
     borderRadius: 12,
-    elevation: 2,
   },
 
   categoryImage: {
@@ -221,10 +194,6 @@ const styles = StyleSheet.create({
   recommendedWrapper: {
     flex: 1,
     margin: 4,
-    transform: [{ scale: 0.9 }], 
-  },
-  scrollContent: {
-    paddingBottom: 20,
+    transform: [{ scale: 0.9 }],
   },
 });
-

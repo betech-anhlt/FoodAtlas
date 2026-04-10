@@ -12,7 +12,7 @@ const SearchScreen: React.FC = () => {
 
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { flex: 1, paddingHorizontal: 16, justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 24, fontWeight: 'bold' },
 });
 
