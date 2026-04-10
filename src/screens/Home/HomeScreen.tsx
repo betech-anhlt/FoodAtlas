@@ -85,7 +85,7 @@ const HomeScreen: React.FC = () => {
             />
             <Icon name="microphone" size={18} color="#666" />
           </View>
-          <ScrollView style={styles.scroll}>
+<ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContentContainer}>
             {/* Categories */}
             <Text style={styles.sectionTitle}>{t('home.categories')}</Text>
             <FlatList
@@ -133,10 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
 
-  scroll: {
-    paddingTop: 8,
-    paddingBottom: 100,
-  },
+  scroll: {},
 
   title: {
     fontSize: 28,
@@ -160,6 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     padding: 12,
     borderRadius: 12,
+    marginHorizontal: 16,
     marginBottom: 12,
   },
 
@@ -193,7 +191,7 @@ const styles = StyleSheet.create({
   },
 
   horizontalList: {
-    paddingRight: 16,
+    paddingHorizontal: 16,
   },
 
   categoryCard: {
@@ -224,7 +222,13 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.9 }], 
   },
   scrollContent: {
+    paddingHorizontal: 16,
     paddingBottom: 20,
+  },
+  scrollContentContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 100,
   },
 });
 
