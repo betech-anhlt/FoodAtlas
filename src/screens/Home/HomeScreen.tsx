@@ -69,12 +69,12 @@ const HomeScreen: React.FC = () => {
       <Text style={styles.title}>{t('nav.home') || 'Home'}</Text>
 
       {/* Settings Example */}
-      <View style={styles.settingsDisplay}>
+      {/* <View style={styles.settingsDisplay}>
         <Text style={styles.settingsText}>Current Settings:</Text>
         <Text>Country: {settings.country}</Text>
         <Text>City: {settings.city}</Text>
         <Text>Language: {settings.language}</Text>
-      </View>
+      </View> */}
 
       {/* Search */}
       <View style={styles.searchBar}>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
 
   recommendedWrapper: {
     flex: 1,
-    margin: 6,
+    margin: 4,
     transform: [{ scale: 0.9 }], 
   },
 });
